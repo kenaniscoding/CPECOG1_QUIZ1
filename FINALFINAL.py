@@ -77,13 +77,14 @@ def side_sum_with_corners(matrix):
                         matrix[i, 0]*mask[1,0] + matrix[i, j-1]*mask[1,1] + matrix[i, j]*mask[1,2] + 
                         matrix[i+1, 0]*mask[2,0] + matrix[i+1, j-1]*mask[2,1] + matrix[i+1, j]*mask[2,2]
                     )
-            # Middle area based on the Averaging Filter Algorithm
+            # Middle area based on the Averaging Spatial Filter Algorithm
+            # https://www.geeksforgeeks.org/spatial-filters-averaging-filter-and-median-filter-in-image-processing/
             else:
                 result[i, j] = (
                 matrix[i-1, j-1] * mask[0, 0] + matrix[i-1, j] * mask[0, 1] + matrix[i-1, j+1] * mask[0, 2] +
                 matrix[i, j-1] * mask[1, 0] + matrix[i, j] * mask[1, 1] + matrix[i, j+1] * mask[1, 2] +
                 matrix[i+1, j-1] * mask[2, 0] + matrix[i+1, j] * mask[2, 1] + matrix[i+1, j+1] * mask[2, 2]
-            )
+                )
     return result 
 ##########################################
 #### REMOVE THIS TEST WHEN UPLOADING  ####

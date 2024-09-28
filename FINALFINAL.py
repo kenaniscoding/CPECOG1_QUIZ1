@@ -50,32 +50,28 @@ def side_sum_with_corners(matrix):
             if (i == 0 and j == 0) or (i == 0 and j == n-1) or (i == m-1 and j == 0) or (i == m-1 and j == n-1):
                 continue
             # Top row 
-            elif i == 0:
-                if 1 <= j <= n-2:
+            elif (i == 0) and (1 <= j <= n-2):
                     result[i, j] = (
                         matrix[0, j-1]*mask[0,0] + matrix[0, j]*mask[0,1] + matrix[0, j+1]*mask[0,2] +  
                         matrix[1, j-1]*mask[1,0] + matrix[1, j]*mask[1,1] + matrix[1, j+1]*mask[1,2] +  
                         matrix[m-1, j-1]*mask[2,0] + matrix[m-1, j]*mask[2,1] + matrix[m-1, j+1]*mask[2,2]  
                     )
             # Bottom row 
-            elif i == m-1:
-                if 1 <= j <= n-2:
+            elif (i == m-1) and (1 <= j <= n-2):
                     result[i, j] = (
                         matrix[0, j-1]*mask[0,0] + matrix[0, j]*mask[0,1] + matrix[0, j+1]*mask[0,2]  +
                         matrix[m-2, j-1]*mask[1,0] + matrix[m-2, j]*mask[1,1] + matrix[m-2, j+1]*mask[1,2] +
                         matrix[m-1, j-1]*mask[2,0] + matrix[m-1, j]*mask[2,1] + matrix[m-1, j+1]*mask[2,2]
                     )
             # Left column 
-            elif j == 0:
-                if 1 <= i <= m-2:
+            elif (j == 0) and (1 <= i <= m-2):
                     result[i, j] = (
                         matrix[i+1, j]*mask[0,0] + matrix[i+1, 1]*mask[0,1] + matrix[i+1, n-1]*mask[0,2] +
                         matrix[i, j]*mask[1,0] + matrix[i, 1]*mask[1,1] + matrix[i, n-1]*mask[1,2] +
                         matrix[i-1, j]*mask[2,0] + matrix[i-1, 1]*mask[2,1] + matrix[i-1, n-1]*mask[2,2]
                     )
             # Right column 
-            elif j == n-1:
-                if 1 <= i <= m-2:
+            elif (j == n-1) and (1 <= i <= m-2):
                     result[i, j] = (
                         matrix[i-1, 0]*mask[0,0] + matrix[i-1, j-1]*mask[0,1] + matrix[i-1, j]*mask[0,2] +
                         matrix[i, 0]*mask[1,0] + matrix[i, j-1]*mask[1,1] + matrix[i, j]*mask[1,2] + 

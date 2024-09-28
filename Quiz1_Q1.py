@@ -1,39 +1,53 @@
 import numpy as np
 import cv2
-#WORKING LIKE A GOAT BUT SLOW 
-def corner_sums(matrix):
+import numpy as np
+import cv2
+def corner_sums(matrix, m, n):
+    # Convert matrix elements to a larger data type (e.g., int64)
+    matrix = matrix.astype(np.int64)
+
     # Top-left corner sum
-    top_left = sum([matrix[i][j] for i in range(2) for j in range(2)]) + matrix[3][1] + matrix[1][3] + matrix[3][2] + matrix[2][3] + matrix[3][3]
+    top_left = (matrix[0][0] + matrix[0][1] + matrix[1][0] + 
+                matrix[1][1] + matrix[m-1][1] + matrix[1][n-1] + 
+                matrix[m-1][n-2] + matrix[m-2][n-1] + matrix[m-1][n-1]
+    )
     
     # Top-right corner sum
-    top_right = sum([matrix[i][j] for i in range(2) for j in range(2, 4)]) + matrix[1][0] + matrix[2][0] + matrix[3][0] + matrix[3][1] + matrix[3][2]
+    top_right = (matrix[0][n-2] + matrix[0][n-1] + matrix[1][n-2] + 
+                 matrix[1][n-1] + matrix[m-3][0] + matrix[m-2][0] + 
+                 matrix[m-1][0] + matrix[m-1][1] + matrix[m-1][2]
+    )
     
     # Bottom-left corner sum
-    bottom_left = sum([matrix[i][j] for i in range(2, 4) for j in range(2)]) + sum(matrix[0][1:4]) + matrix[1][3] + matrix[2][3]
+    bottom_left =  (matrix[m-2][0] + matrix[m-2][1] + matrix[m-1][0] + 
+                    matrix[m-1][1] + matrix[0][n-3] + matrix[0][n-2] + 
+                    matrix[0][n-1] + matrix[1][n-1] + matrix[2][n-1]
+    )
     
     # Bottom-right corner sum
-    bottom_right = sum([matrix[i][j] for i in range(2, 4) for j in range(2, 4)]) + sum(matrix[0][:3]) + matrix[1][0] + matrix[2][0]
+    bottom_right = (matrix[m-2][n-2] + matrix[m-2][n-1] + matrix[m-1][n-2] + 
+                    matrix[m-1][n-1] + matrix[0][0] + matrix[0][1] + 
+                    matrix[0][2] + matrix[1][0] + matrix[2][0]
+    )
     
     return {
-        "Top-left corner sum": top_left,
-        "Top-right corner sum": top_right,
-        "Bottom-left corner sum": bottom_left,
-        "Bottom-right corner sum": bottom_right
+        "TL": top_left,
+        "TR": top_right,
+        "BL": bottom_left,
+        "BR": bottom_right
     }
-
 def side_sum_with_corners(matrix):
     m, n = matrix.shape  # Get dimensions of the matrix
     result = np.zeros((m, n))  # Initialize a result matrix of the same size
     mask = np.ones([3, 3], dtype=int) / 9  # 3x3 averaging mask
 
-    # Calculate corner sums
-    corners = corner_sums(matrix)
+    corners = corner_sums(matrix, m, n)
 
     # Assign corner sums to the result matrix
-    result[0, 0] = corners["Top-left corner sum"]
-    result[0, n-1] = corners["Top-right corner sum"]
-    result[m-1, 0] = corners["Bottom-left corner sum"]
-    result[m-1, n-1] = corners["Bottom-right corner sum"]
+    result[0, 0] = corners["TL"]
+    result[0, n-1] = corners["TR"]
+    result[m-1, 0] = corners["BL"]
+    result[m-1, n-1] = corners["BR"]
 
     for i in range(1, m-1):
         for j in range(1, n-1):

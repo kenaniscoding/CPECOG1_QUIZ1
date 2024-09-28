@@ -36,19 +36,22 @@ def side_sum_with_corners(matrix):
     result = np.zeros((m, n))  # Initialize a result matrix of the same size
     mask = np.ones([3, 3], dtype=int) / 9  # 3x3 averaging mask
 
-    corners = corner_sums(matrix, m, n,mask)
-
-    # Assign corner sums to the result matrix
-    result[0, 0] = corners["TL"]
-    result[0, n-1] = corners["TR"]
-    result[m-1, 0] = corners["BL"]
-    result[m-1, n-1] = corners["BR"]
+    corners = corner_sums(matrix, m, n, mask)
 
     for i in range(m):
         for j in range(n):
-            # Leave corners already set
-            if (i == 0 and j == 0) or (i == 0 and j == n-1) or (i == m-1 and j == 0) or (i == m-1 and j == n-1):
-                continue
+            # Top Left Corner
+            if (i == 0 and j == 0):
+                result[i,j] = corners["TL"]
+            # Top Right Corner
+            elif (i == 0 and j == n-1):
+                result[i,j] = corners["TR"]
+            # Bottom Left Corner
+            elif (i == m-1 and j == 0):
+                result[i,j] = corners["BL"]
+            # Bottom Right Corner
+            elif (i == m-1 and j == n-1):
+                result[i,j] = corners["BR"]
             # Top row 
             elif (i == 0) and (1 <= j <= n-2):
                     result[i, j] = (

@@ -1,4 +1,4 @@
-# Newest Corner and Side Algorithm (NSC)
+# Newest Corner and Side Algorithm (NCS)
 change the image file path and use FINALFINAL.py 
 ## TODO
 - ~~reduce time complexity~~
